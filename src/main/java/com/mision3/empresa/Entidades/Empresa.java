@@ -1,5 +1,7 @@
 package com.mision3.empresa.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -10,31 +12,35 @@ public class Empresa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idempr;
-    @Column(name="nombre")
+    @Column
     private String nombre;
-    @Column(name="nit")
+    @Column
     private String nit;
-    @Column(name="telefono")
+    @Column
     private String telefono;
-    @Column(name="direccion")
+    @Column
     private String direccion;
-    @Column(name="creado")
+    @Column
     private LocalDate creado;
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa",cascade = CascadeType.ALL)
     private List<Empleado> listempleados;
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa",cascade = CascadeType.ALL)
     private List<Transaccion> listmovimientos;
 
     public Empresa() {
     }
 
-    public Empresa(Long idempr, String nombre, String nit, String telefono, String direccion, LocalDate creado) {
+    public Empresa(Long idempr, String nombre, String nit, String telefono, String direccion, LocalDate creado, List<Empleado> listempleados, List<Transaccion> listmovimientos) {
         this.idempr = idempr;
         this.nombre = nombre;
         this.nit = nit;
         this.telefono = telefono;
         this.direccion = direccion;
         this.creado = creado;
+        this.listempleados = listempleados;
+        this.listmovimientos = listmovimientos;
     }
 
     public Long getIdempr() {
@@ -77,9 +83,21 @@ public class Empresa {
         this.direccion = direccion;
     }
 
+    public List<Empleado> getListempleados() {
+        return listempleados;
+    }
 
+    public void setListempleados(List<Empleado> listempleados) {
+        this.listempleados = listempleados;
+    }
 
+    public List<Transaccion> getListmovimientos() {
+        return listmovimientos;
+    }
 
+    public void setListmovimientos(List<Transaccion> listmovimientos) {
+        this.listmovimientos = listmovimientos;
+    }
 
     public LocalDate getCreado() {
         return creado;
@@ -88,4 +106,6 @@ public class Empresa {
     public void setCreado(LocalDate creado) {
         this.creado = creado;
     }
+
+
 }
